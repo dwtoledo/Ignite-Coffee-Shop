@@ -1,3 +1,10 @@
+import { ThemeProvider } from 'styled-components'
+import { defaultTheme } from './styles/themes/default'
+
 export function App() {
-  return <h1>Ignite Challenge 02 - @dwtoledo</h1>
+  return (
+    <ThemeProvider theme={defaultTheme}>
+      Ignite Challenge 02 - @dwtoledo
+    </ThemeProvider>
+  )
 }
