@@ -1,8 +1,14 @@
-import { MapPin } from 'phosphor-react'
+import { MapPin, ShoppingCart } from 'phosphor-react'
 import { defaultTheme } from '../../styles/themes/default'
 import coffeeDeliveryLogo from '../../assets/icons/logo.svg'
 
-import { HeaderContainer, LocationButton, LogoWithText } from './style'
+import {
+  HeaderContainer,
+  LocationButton,
+  LogoWithText,
+  CartButton,
+  ButtonsWrapper,
+} from './style'
 
 export function Header() {
   return (
@@ -19,10 +25,17 @@ export function Header() {
         </div>
       </LogoWithText>
 
-      <LocationButton>
-        <MapPin size={22} weight="fill" color={defaultTheme.purple} />
-        <span>Porto Alegre, RS</span>
-      </LocationButton>
+      <ButtonsWrapper>
+        <LocationButton>
+          <MapPin size={22} weight="fill" color={defaultTheme.purple} />
+          <span>Porto Alegre, RS</span>
+        </LocationButton>
+
+        <CartButton>
+          <ShoppingCart size={22} weight="fill" color={defaultTheme.yellow} />
+          <span>3</span>
+        </CartButton>
+      </ButtonsWrapper>
     </HeaderContainer>
   )
 }

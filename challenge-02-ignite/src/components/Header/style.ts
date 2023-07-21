@@ -39,16 +39,65 @@ export const LocationButton = styled.button`
   align-items: center;
   padding: 0.5rem;
   border-radius: 0.375rem;
-  background: ${(props) => props.theme.baseButton};
+  background: ${(props) => props.theme.purpleLight};
   border: none;
+
+  span {
+    color: ${(props) => props.theme.purple};
+    font-size: 0.875rem;
+  }
 
   &:hover {
     cursor: pointer;
-    background: ${(props) => props.theme.baseHover};
+  }
+
+  &:hover > svg {
+    fill: ${(props) => props.theme.purpleDark};
+  }
+
+  &:hover > span {
+    color: ${(props) => props.theme.purpleDark};
+  }
+`
+
+export const CartButton = styled.button`
+  padding: 0.5rem;
+  border-radius: 0.375rem;
+  background: ${(props) => props.theme.yellowLight};
+  border: none;
+  position: relative;
+
+  &:hover {
+    cursor: pointer;
+  }
+
+  &:hover > svg {
+    fill: ${(props) => props.theme.yellowDark};
+  }
+
+  &:hover > span {
+    background-color: ${(props) => props.theme.yellowDark};
   }
 
   span {
-    color: ${(props) => props.theme.purpleDark};
-    font-size: 0.875rem;
+    align-items: center;
+    background-color: ${(props) => props.theme.yellow};
+    border-radius: 50%;
+    color: ${(props) => props.theme.white};
+    display: flex;
+    font-family: 'Bakemono Text Extrabold';
+    font-size: 0.75rem;
+    height: 1.25rem;
+    justify-content: center;
+    position: absolute;
+    top: -0.625rem;
+    right: -0.625rem;
+    width: 1.25rem;
   }
+`
+
+export const ButtonsWrapper = styled.div`
+  display: flex;
+  gap: 0.75rem;
+  align-items: center;
 `
