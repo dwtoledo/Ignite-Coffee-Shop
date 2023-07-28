@@ -6,6 +6,8 @@ export const HeaderContainer = styled.div`
   align-items: center;
   width: 100%;
   padding: 2rem 0;
+  flex-wrap: wrap;
+  margin: 0 auto;
 `
 
 export const LogoWithText = styled.div`
