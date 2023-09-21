@@ -36,10 +36,32 @@ export const GlobalStyle = createGlobalStyle`
     body {
         background: ${(props) => props.theme.background};
         color: ${(props) => props.theme.baseText};
+        line-height: 1.625rem;
     }
     
     body, input, textarea, button {
         font-family: 'Bakemono Text Regular';
         font-size: 1rem;
+        line-height: 1.625rem;
     }
+
+    html {
+      @media only screen and (max-width: 1600px) {
+        font-size: 93.75%;
+      }	
+
+      @media only screen and (max-width: 1200px) {
+        font-size: 87.5%;
+      }
+      
+      @media only screen and (max-width: 900px) {
+        font-size: 81.25%;
+      }
+
+      @media only screen and (max-width: 600px) {
+        font-size: 75%;
+      }
+    }
+
+
 `
