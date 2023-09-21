@@ -97,7 +97,7 @@ export const CartButton = styled.button`
     border-radius: 50%;
     color: ${(props) => props.theme.white};
     display: flex;
-    font-family: 'Bakemono Text Extrabold';
+    font-family: 'Bakemono Text Bold';
     font-size: 0.75rem;
     height: 1.25rem;
     justify-content: center;
