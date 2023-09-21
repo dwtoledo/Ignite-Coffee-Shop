@@ -38,11 +38,13 @@ export const TextContainer = styled.div`
     font-family: 'Bakemono Text Bold';
     line-height: 1.4;
     font-size: 3rem;
+    color: ${(props) => props.theme.baseTitle};
   }
 
   p {
     line-height: 1.6;
     font-size: 1.25rem;
+    color: ${(props) => props.theme.baseSubtitle};
   }
 `
 
