@@ -9,22 +9,24 @@ import {
   CartButton,
   ButtonsWrapper,
 } from './style'
+import { Link } from 'react-router-dom'
 
 export function Header() {
   return (
     <HeaderContainer>
-      <LogoWithText>
-        <img
-          src={coffeeDeliveryLogo}
-          alt="Coffee cup with lid, a simple and monochrome purple logo"
-        />
-        <div>
-          <span>Coffee</span>
-          <br />
-          <span>Delivery</span>
-        </div>
-      </LogoWithText>
-
+      <Link to={'/'}>
+        <LogoWithText>
+          <img
+            src={coffeeDeliveryLogo}
+            alt="Coffee cup with lid, a simple and monochrome purple logo"
+          />
+          <div>
+            <span>Coffee</span>
+            <br />
+            <span>Delivery</span>
+          </div>
+        </LogoWithText>
+      </Link>
       <ButtonsWrapper>
         <LocationButton>
           <MapPin size={22} weight="fill" color={defaultTheme.purple} />

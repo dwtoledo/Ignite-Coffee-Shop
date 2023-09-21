@@ -6,6 +6,10 @@ export const HeaderContainer = styled.div`
   align-items: center;
   width: 100%;
   padding: 2rem 0;
+
+  a {
+    text-decoration: none;
+  }
 `
 
 export const LogoWithText = styled.div`
@@ -21,6 +25,7 @@ export const LogoWithText = styled.div`
   div > span {
     font-size: 1.5rem;
     line-height: 0.9;
+    color: ${(props) => props.theme.baseSubtitle};
   }
 
   div > span:first-child {
