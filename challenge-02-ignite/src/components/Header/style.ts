@@ -2,13 +2,20 @@ import styled from 'styled-components'
 
 export const HeaderContainer = styled.div`
   display: flex;
-  justify-content: space-between;
+  flex-direction: column;
+  gap: 1rem;
   align-items: center;
   width: 100%;
   padding: 2rem 0;
 
   a {
     text-decoration: none;
+  }
+
+  @media screen and (min-width: 600px) {
+    justify-content: space-between;
+    flex-direction: row;
+    gap: 0;
   }
 `
 
