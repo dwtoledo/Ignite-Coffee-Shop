@@ -33,10 +33,12 @@ export function Header() {
           <span>Porto Alegre, RS</span>
         </LocationButton>
 
-        <CartButton>
-          <ShoppingCart size={22} weight="fill" color={defaultTheme.yellow} />
-          <span>3</span>
-        </CartButton>
+        <Link to={'/checkout'}>
+          <CartButton>
+            <ShoppingCart size={22} weight="fill" color={defaultTheme.yellow} />
+            <span>3</span>
+          </CartButton>
+        </Link>
       </ButtonsWrapper>
     </HeaderContainer>
   )

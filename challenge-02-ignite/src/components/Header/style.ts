@@ -78,6 +78,9 @@ export const CartButton = styled.button`
   background: ${(props) => props.theme.yellowLight};
   border: none;
   position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 
   &:hover {
     cursor: pointer;
