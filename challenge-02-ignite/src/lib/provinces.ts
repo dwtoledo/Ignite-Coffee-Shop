@@ -1,12 +1,17 @@
-export const Provinces = {
-  AB: 'Alberta',
-  BC: 'British Columbia',
-  MB: 'Manitoba',
-  NB: 'New Brunswick',
-  NL: 'Newfoundland and Labrador',
-  NS: 'Nova Scotia',
-  ON: 'Ontario',
-  PE: 'Prince Edward Island',
-  QC: 'Quebec',
-  SK: 'Saskatchewan',
+interface Province {
+  abbreviation: string
+  name: string
 }
+
+export const provinces: Array<Province> = [
+  { abbreviation: 'AB', name: 'Alberta' },
+  { abbreviation: 'BC', name: 'British Columbia' },
+  { abbreviation: 'MB', name: 'Manitoba' },
+  { abbreviation: 'NB', name: 'New Brunswick' },
+  { abbreviation: 'NL', name: 'Newfoundland and Labrador' },
+  { abbreviation: 'NS', name: 'Nova Scotia' },
+  { abbreviation: 'ON', name: 'Ontario' },
+  { abbreviation: 'PE', name: 'Prince Edward Island' },
+  { abbreviation: 'QC', name: 'Quebec' },
+  { abbreviation: 'SK', name: 'Saskatchewan' },
+]
