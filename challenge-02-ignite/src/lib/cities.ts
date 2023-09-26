@@ -1,4 +1,4 @@
-export const ProvinceCities = [
+const provinceCities = [
   ['100 MILE HOUSE', 'BC'],
   ['108 MILE RANCH', 'BC'],
   ['150 MILE HOUSE', 'BC'],
@@ -7041,3 +7041,11 @@ export const ProvinceCities = [
   ['ZIONVILLE', 'NB'],
   ['ZURICH', 'ON'],
 ]
+
+export function getCitiesByProvinceAbbr(abbreviation: string): Array<string> {
+  const cities: Array<string> = []
+  provinceCities.forEach((cityData) => {
+    if (cityData[1] === abbreviation) cities.push(cityData[0])
+  })
+  return cities
+}
