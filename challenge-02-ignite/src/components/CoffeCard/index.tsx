@@ -7,27 +7,33 @@ import {
   ItemTagsContainer,
 } from './style'
 
-import CoffeeImage from '../../assets/images/type-expresso.svg'
 import CartSimpleIcon from '../../assets/icons/cart-simple.svg'
+import { Product } from '../../lib/products'
 
-export function CoffeeCard() {
+interface CoffeeCardProps {
+  details: Product
+}
+
+export function CoffeeCard({ details }: CoffeeCardProps) {
   return (
     <CoffeeCardWrapper>
       <CoffeeCardContainer>
-        <img src={CoffeeImage} alt="" />
+        <img src={details.imgUrl} alt={details.imgAltText} />
         <ItemTagsContainer>
-          <span className="tag">special</span>
-          <span className="tag">alcoholic</span>
-          <span className="tag">iced</span>
+          {details.tags.map((tag) => {
+            return (
+              <span key={`${details.id}-${tag}`} className="tag">
+                {tag}
+              </span>
+            )
+          })}
         </ItemTagsContainer>
-        <span className="title">Traditional Expresso</span>
-        <span className="description">
-          Traditional coffee made with hot water and ground beans
-        </span>
+        <span className="title">{details.name}</span>
+        <span className="description">{details.description}</span>
 
         <CoffeeCardFooter>
           <span>
-            CAD <strong>3.90</strong>
+            CAD <strong>{details.price}</strong>
           </span>
           <ItemQuantitySelector>
             <span>-</span>
