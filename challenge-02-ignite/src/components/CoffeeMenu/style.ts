@@ -15,4 +15,5 @@ export const CoffeeCardsContainer = styled.div`
   display: flex;
   gap: 2rem;
   flex-wrap: wrap;
+  justify-content: center;
 `
