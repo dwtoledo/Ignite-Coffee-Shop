@@ -68,6 +68,7 @@ export const AddToCartButton = styled.button`
   background-color: ${(props) => props.theme.purpleDark};
   border: none;
   border-radius: 0.375rem;
+  cursor: pointer;
   display: flex;
   justify-content: center;
   padding: 0.625rem;
@@ -75,6 +76,10 @@ export const AddToCartButton = styled.button`
   img {
     height: auto;
     width: 1.125rem;
+  }
+
+  &:hover {
+    background-color: ${(props) => props.theme.purple};
   }
 `
 
@@ -113,5 +118,13 @@ export const ItemQuantitySelector = styled.div`
     &:hover {
       cursor: pointer;
     }
+
+    /* disable text selection on all browsers possible */
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
   }
 `

@@ -9,12 +9,28 @@ import {
 
 import CartSimpleIcon from '../../assets/icons/cart-simple.svg'
 import { Product } from '../../lib/products'
+import { ChangeEvent, useState } from 'react'
 
 interface CoffeeCardProps {
   details: Product
 }
 
 export function CoffeeCard({ details }: CoffeeCardProps) {
+  const [quantity, setQuantity] = useState<number>(0)
+
+  function handleQuantityIncrease() {
+    setQuantity((quantity) => quantity + 1)
+  }
+
+  function handleQuantityDecrease() {
+    if (!quantity) return
+    setQuantity((quantity) => quantity - 1)
+  }
+
+  function handleQuantityChange(event: ChangeEvent<HTMLInputElement>) {
+    setQuantity(Number(event.target.value))
+  }
+
   return (
     <CoffeeCardWrapper>
       <CoffeeCardContainer>
@@ -33,14 +49,24 @@ export function CoffeeCard({ details }: CoffeeCardProps) {
 
         <CoffeeCardFooter>
           <span>
-            CAD <strong>{details.price}</strong>
+            CAD <strong>{details.price.toFixed(2)}</strong>
           </span>
           <ItemQuantitySelector>
-            <span>-</span>
-            <input type="number" name="quantity" id="quantity" min="0" />
-            <span>+</span>
+            <span onClick={handleQuantityDecrease} title="Decrease quantity">
+              -
+            </span>
+            <input
+              type="number"
+              name="quantity"
+              min="0"
+              value={quantity}
+              onChange={handleQuantityChange}
+            />
+            <span onClick={handleQuantityIncrease} title="Increase quantity">
+              +
+            </span>
           </ItemQuantitySelector>
-          <AddToCartButton>
+          <AddToCartButton title="Add to cart">
             <img
               src={CartSimpleIcon}
               alt="White simple cart icon within dark purple button"
