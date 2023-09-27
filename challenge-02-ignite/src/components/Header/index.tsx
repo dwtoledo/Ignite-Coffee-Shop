@@ -15,7 +15,7 @@ export function Header() {
   return (
     <HeaderContainer>
       <Link to={'/'}>
-        <LogoWithText>
+        <LogoWithText title="Home page">
           <img
             src={coffeeDeliveryLogo}
             alt="Coffee cup with lid, a simple and monochrome purple logo"
@@ -28,13 +28,13 @@ export function Header() {
         </LogoWithText>
       </Link>
       <ButtonsWrapper>
-        <LocationButton>
+        <LocationButton title="Change location">
           <MapPin size={22} weight="fill" color={defaultTheme.purple} />
           <span>Porto Alegre, RS</span>
         </LocationButton>
 
         <Link to={'/checkout'}>
-          <CartButton>
+          <CartButton title="Proceed to checkout">
             <ShoppingCart size={22} weight="fill" color={defaultTheme.yellow} />
             <span>3</span>
           </CartButton>
