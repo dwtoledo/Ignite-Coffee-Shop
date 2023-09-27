@@ -13,16 +13,16 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { ChangeEvent, useState } from 'react'
 import { getCitiesByProvinceAbbr } from '../lib/cities'
 
+const canadaPostalCodeValidationRegex: RegExp =
+  /([ABCEGHJKLMNPRSTVXY]\d)([ABCEGHJKLMNPRSTVWXYZ]\d){2}/i
+
 const newOrderFormSchema = z.object({
   address: z.object({
     postalCode: z
       .string()
       .nonempty('Required.')
       .length(6, 'Enter a six-character postal code without space, e.g. K1A0T6')
-      .regex(
-        /([ABCEGHJKLMNPRSTVXY]\d)([ABCEGHJKLMNPRSTVWXYZ]\d){2}/i,
-        'Invalid postal code.',
-      )
+      .regex(canadaPostalCodeValidationRegex, 'Invalid postal code.')
       .toUpperCase(),
     line1: z.string().nonempty('Required.'),
     line2: z.string(),
@@ -33,6 +33,17 @@ const newOrderFormSchema = z.object({
     type: z.coerce.number(),
     additionalInfo: z.string().trim(),
   }),
+  products: z
+    .array(
+      z.object({
+        id: z.string().uuid(),
+        quantity: z
+          .number()
+          .min(1, 'Minimum of 1 unit per product.')
+          .max(10, 'Maximum of 10 units per product.'),
+      }),
+    )
+    .nonempty('Cart is empty.'),
 })
 
 type newOrderFormData = z.infer<typeof newOrderFormSchema>
@@ -68,13 +79,13 @@ export function Checkout() {
         />
         {errors.address?.postalCode && (
           <span>{errors.address.postalCode.message}</span>
-        )}{' '}
+        )}
         <input
           type="text"
           placeholder="Address Line 1"
           {...register('address.line1')}
         />
-        {errors.address?.line1 && <span>{errors.address.line1.message}</span>}{' '}
+        {errors.address?.line1 && <span>{errors.address.line1.message}</span>}
         <input
           type="text"
           placeholder="Address Line 2"
@@ -96,7 +107,7 @@ export function Checkout() {
         </select>
         {errors.address?.province && (
           <span>{errors.address.province.message}</span>
-        )}{' '}
+        )}
         <select
           placeholder="City"
           {...register('address.city')}
@@ -111,7 +122,7 @@ export function Checkout() {
             )
           })}
         </select>
-        {errors.address?.city && <span>{errors.address.city.message}</span>}{' '}
+        {errors.address?.city && <span>{errors.address.city.message}</span>}
       </fieldset>
       <fieldset>
         <CurrencyDollar />
