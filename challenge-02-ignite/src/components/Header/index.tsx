@@ -30,7 +30,7 @@ export function Header() {
       <ButtonsWrapper>
         <LocationButton title="Change location">
           <MapPin size={22} weight="fill" color={defaultTheme.purple} />
-          <span>Porto Alegre, RS</span>
+          <span>Toronto, ON</span>
         </LocationButton>
 
         <Link to={'/checkout'}>
