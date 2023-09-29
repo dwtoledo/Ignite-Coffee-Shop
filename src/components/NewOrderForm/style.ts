@@ -90,6 +90,7 @@ export const RadioInput = styled.div`
     &:hover {
       background-color: ${(props) => props.theme.baseHover};
       color: ${(props) => props.theme.baseSubtitle};
+      cursor: pointer;
     }
 
     &.selected {
@@ -111,5 +112,6 @@ export const NewOrderButton = styled.button`
 
   &:hover {
     background-color: ${(props) => props.theme.yellowDark};
+    cursor: pointer;
   }
 `
