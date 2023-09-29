@@ -7042,6 +7042,9 @@ const provinceCities = [
   ['ZURICH', 'ON'],
 ]
 
+export const postalCodeRegexValidation =
+  /([ABCEGHJKLMNPRSTVXY]\d)([ABCEGHJKLMNPRSTVWXYZ]\d){2}/i
+
 export function getCitiesByProvinceAbbr(abbreviation: string): Array<string> {
   const cities: Array<string> = []
   provinceCities.forEach((cityData) => {
