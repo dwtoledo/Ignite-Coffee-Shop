@@ -4,14 +4,14 @@ export interface Province {
 }
 
 export const provinces: Array<Province> = [
-  { abbreviation: 'AB', name: 'Alberta' },
-  { abbreviation: 'BC', name: 'British Columbia' },
-  { abbreviation: 'MB', name: 'Manitoba' },
-  { abbreviation: 'NB', name: 'New Brunswick' },
-  { abbreviation: 'NL', name: 'Newfoundland and Labrador' },
-  { abbreviation: 'NS', name: 'Nova Scotia' },
-  { abbreviation: 'ON', name: 'Ontario' },
-  { abbreviation: 'PE', name: 'Prince Edward Island' },
-  { abbreviation: 'QC', name: 'Quebec' },
-  { abbreviation: 'SK', name: 'Saskatchewan' },
+  { abbreviation: 'AB', name: 'ALBERTA' },
+  { abbreviation: 'BC', name: 'BRITISH COLUMBIA' },
+  { abbreviation: 'MB', name: 'MANITOBA' },
+  { abbreviation: 'NB', name: 'NEW BRUNSWICK' },
+  { abbreviation: 'NL', name: 'NEWFOUNDLAND AND LABRADOR' },
+  { abbreviation: 'NS', name: 'NOVA SCOTIA' },
+  { abbreviation: 'ON', name: 'ONTARIO' },
+  { abbreviation: 'PE', name: 'PRINCE EDWARD ISLAND' },
+  { abbreviation: 'QC', name: 'QUEBEC' },
+  { abbreviation: 'SK', name: 'SASKATCHEWAN' },
 ]
