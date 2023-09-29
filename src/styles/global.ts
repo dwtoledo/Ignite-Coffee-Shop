@@ -39,7 +39,7 @@ export const GlobalStyle = createGlobalStyle`
         line-height: 1.625rem;
     }
     
-    body, input, textarea, button {
+    body, input, textarea, button, select {
         font-family: 'Bakemono Text Regular';
         font-size: 1rem;
         line-height: 1.625rem;
