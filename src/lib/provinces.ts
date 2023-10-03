@@ -14,4 +14,7 @@ export const provinces: Array<Province> = [
   { abbreviation: 'PE', name: 'PRINCE EDWARD ISLAND' },
   { abbreviation: 'QC', name: 'QUEBEC' },
   { abbreviation: 'SK', name: 'SASKATCHEWAN' },
+  { abbreviation: 'NT', name: 'NORTHWEST TERRITORIES' },
+  { abbreviation: 'NU', name: 'NUNAVUT' },
+  { abbreviation: 'YT', name: 'YUKON' },
 ]
