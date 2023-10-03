@@ -1,14 +1,15 @@
-import { defaultTheme } from '../../styles/themes/default'
-import {
-  getCitiesByProvinceAbbr,
-  postalCodeRegexValidation,
-} from '../../lib/cities'
-import { PaymentTypes } from '../../lib/payments'
-import { provinces } from '../../lib/provinces'
 import { ChangeEvent, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { z } from 'zod'
+
+import { PaymentTypes } from '../../lib/payments'
+import { provinces } from '../../lib/provinces'
+import {
+  getCitiesByProvinceAbbr,
+  postalCodeRegexValidation,
+  postalCodeMaxCharacters,
+} from '../../lib/cities'
 
 import {
   MapPinLine,
@@ -18,13 +19,16 @@ import {
   Money,
 } from 'phosphor-react'
 
+import { defaultTheme } from '../../styles/themes/default'
+
 import {
-  NewOrderFormContainer,
-  GenericFieldsetContainer,
-  GenericInputsContainer,
+  FormSession,
+  InputsGroup,
   GenericInput,
-  RadioInput,
-  NewOrderButton,
+  FormContainer,
+  SubmitFormButton,
+  PaymentType,
+  PaymentTypesContainer,
 } from './style'
 
 const maxItemQuantityOnCart = 10
@@ -36,7 +40,7 @@ const newOrderFormSchema = z.object({
       .string()
       .nonempty('Required.')
       .length(
-        6,
+        postalCodeMaxCharacters,
         'Enter a six-character postal code without spaces, e.g. K1A0T6',
       )
       .regex(
@@ -91,6 +95,7 @@ export function NewOrderForm() {
       payment: {
         type: PaymentTypes.CREDIT_CARD,
       },
+      products: [],
     },
   })
 
@@ -110,159 +115,187 @@ export function NewOrderForm() {
   }
 
   return (
-    <NewOrderFormContainer onSubmit={handleSubmit(placeOrder)}>
-      <span>Complete your order</span>
+    <FormContainer onSubmit={handleSubmit(placeOrder)}>
+      <div className="grid-1st-column">
+        <span>Complete your order</span>
 
-      <GenericFieldsetContainer>
-        <div className="fieldset-container">
-          <MapPinLine size={22} color={defaultTheme.yellowDark} />
-          <span className="fieldset-container__title">Your address</span>
-        </div>
-
-        <GenericInputsContainer>
-          <GenericInput>
-            <input
-              type="text"
-              placeholder="Postal code"
-              {...register('address.postalCode')}
-            />
-            {errors.address?.postalCode && (
-              <span>{errors.address.postalCode.message}</span>
-            )}
-          </GenericInput>
-          <GenericInput>
-            <input
-              type="text"
-              placeholder="Address Line 1"
-              {...register('address.line1')}
-            />
-            {errors.address?.line1 && (
-              <span>{errors.address.line1.message}</span>
-            )}
-          </GenericInput>
-          <GenericInput>
-            <input
-              type="text"
-              placeholder="Address Line 2 (Optional)"
-              {...register('address.line2')}
-            />
-          </GenericInput>
-          <GenericInput>
-            <select
-              placeholder="Province"
-              {...register('address.province')}
-              onChange={handleProvinceSelection}
-            >
-              <option value={''}>Select a province</option>
-              {provinces.map((province) => {
-                return (
-                  <option
-                    key={province.abbreviation}
-                    value={province.abbreviation}
-                  >
-                    {province.name}
-                  </option>
-                )
-              })}
-            </select>
-            {errors.address?.province && (
-              <span>{errors.address.province.message}</span>
-            )}
-          </GenericInput>
-          <GenericInput>
-            <select
-              placeholder="City"
-              {...register('address.city')}
-              disabled={!cities}
-            >
-              <option value={''}>Select a city</option>
-              {cities.map((city) => {
-                return (
-                  <option key={city} value={city}>
-                    {city}
-                  </option>
-                )
-              })}
-            </select>
-            {errors.address?.city && <span>{errors.address.city.message}</span>}
-          </GenericInput>
-        </GenericInputsContainer>
-      </GenericFieldsetContainer>
-      <GenericFieldsetContainer>
-        <div className="fieldset-container">
-          <CurrencyDollar size={22} color={defaultTheme.yellowDark} />
-          <div className="fieldset-container__wrapper">
-            <span className="fieldset-container__title">Payment</span>
-            <span className="fieldset-container__message">
-              Payment is processed at delivery. Choose the way you want to pay:
-            </span>
+        <FormSession>
+          <div className="session-header">
+            <MapPinLine size={22} color={defaultTheme.yellowDark} />
+            <span className="session-header__title">Your address</span>
           </div>
-        </div>
 
-        <RadioInput>
-          <input
-            id="credit-card"
-            type="radio"
-            value={PaymentTypes.CREDIT_CARD}
-            {...register('payment.type')}
-          />
-          <label
-            htmlFor="credit-card"
-            className={paymentType === '0' ? 'selected' : ''}
-            title="Payment is credit card."
-          >
-            <CreditCard color={defaultTheme.purple} size={16} />
-            Credit Card
-          </label>
-        </RadioInput>
+          <InputsGroup>
+            <GenericInput>
+              <input
+                type="text"
+                placeholder="Postal code"
+                {...register('address.postalCode')}
+              />
+              {errors.address?.postalCode && (
+                <span className="input-error__message">
+                  {errors.address.postalCode.message}
+                </span>
+              )}
+            </GenericInput>
+            <GenericInput>
+              <input
+                type="text"
+                placeholder="Address Line 1"
+                {...register('address.line1')}
+              />
+              {errors.address?.line1 && (
+                <span className="input-error__message">
+                  {errors.address.line1.message}
+                </span>
+              )}
+            </GenericInput>
+            <GenericInput>
+              <input
+                type="text"
+                placeholder="Address Line 2 (Optional)"
+                {...register('address.line2')}
+              />
+            </GenericInput>
+            <GenericInput>
+              <select
+                placeholder="Province"
+                {...register('address.province')}
+                onChange={handleProvinceSelection}
+              >
+                <option value={''}>Select a province or territory</option>
+                {provinces.map((province) => {
+                  return (
+                    <option
+                      key={province.abbreviation}
+                      value={province.abbreviation}
+                    >
+                      {province.name}
+                    </option>
+                  )
+                })}
+              </select>
+              {errors.address?.province && (
+                <span className="input-error__message">
+                  {errors.address.province.message}
+                </span>
+              )}
+            </GenericInput>
+            <GenericInput>
+              <select
+                placeholder="City"
+                {...register('address.city')}
+                disabled={!cities}
+              >
+                <option value={''}>Select a city</option>
+                {cities.map((city) => {
+                  return (
+                    <option key={city} value={city}>
+                      {city}
+                    </option>
+                  )
+                })}
+              </select>
+              {errors.address?.city && (
+                <span className="input-error__message">
+                  {errors.address.city.message}
+                </span>
+              )}
+            </GenericInput>
+          </InputsGroup>
+        </FormSession>
 
-        <RadioInput>
-          <input
-            id="debit-card"
-            type="radio"
-            value={PaymentTypes.DEBIT_CARD}
-            {...register('payment.type')}
-          />
-          <label
-            htmlFor="debit-card"
-            className={paymentType === '1' ? 'selected' : ''}
-            title="Payment is debit card."
-          >
-            <Bank color={defaultTheme.purple} size={16} />
-            Debit Card
-          </label>
-        </RadioInput>
+        <FormSession>
+          <div className="session-header">
+            <CurrencyDollar size={22} color={defaultTheme.yellowDark} />
+            <div className="session-header__wrapper">
+              <span className="session-header__title">Payment</span>
+              <span className="session-header__message">
+                Payment is processed at delivery. Choose the way you want to
+                pay:
+              </span>
+            </div>
+          </div>
 
-        <RadioInput>
-          <input
-            id="cash"
-            type="radio"
-            value={PaymentTypes.CASH}
-            {...register('payment.type')}
-          />
-          <label
-            htmlFor="cash"
-            className={paymentType === '2' ? 'selected' : ''}
-            title="Payment is cash."
-          >
-            <Money color={defaultTheme.purple} size={16} />
-            Cash
-          </label>
-        </RadioInput>
-        <GenericInput>
-          <label htmlFor="additional-info">Additional info:</label>
+          <PaymentTypesContainer>
+            <PaymentType>
+              <input
+                id="credit-card"
+                type="radio"
+                value={PaymentTypes.CREDIT_CARD}
+                {...register('payment.type')}
+              />
+              <label
+                htmlFor="credit-card"
+                className={paymentType === '0' ? 'selected' : ''}
+                title="Payment is credit card."
+              >
+                <CreditCard color={defaultTheme.purple} size={16} />
+                Credit Card
+              </label>
+            </PaymentType>
 
-          <textarea
-            id="additional-info"
-            {...register('payment.additionalInfo')}
-            placeholder="If needed, add instructions for our delivery or payment."
-          />
-        </GenericInput>
-      </GenericFieldsetContainer>
+            <PaymentType>
+              <input
+                id="debit-card"
+                type="radio"
+                value={PaymentTypes.DEBIT_CARD}
+                {...register('payment.type')}
+              />
+              <label
+                htmlFor="debit-card"
+                className={paymentType === '1' ? 'selected' : ''}
+                title="Payment is debit card."
+              >
+                <Bank color={defaultTheme.purple} size={16} />
+                Debit Card
+              </label>
+            </PaymentType>
 
-      <span>Selected items</span>
-      <GenericFieldsetContainer></GenericFieldsetContainer>
-      <NewOrderButton type="submit">Place your order</NewOrderButton>
-    </NewOrderFormContainer>
+            <PaymentType>
+              <input
+                id="cash"
+                type="radio"
+                value={PaymentTypes.CASH}
+                {...register('payment.type')}
+              />
+              <label
+                htmlFor="cash"
+                className={paymentType === '2' ? 'selected' : ''}
+                title="Payment is cash."
+              >
+                <Money color={defaultTheme.purple} size={16} />
+                Cash
+              </label>
+            </PaymentType>
+          </PaymentTypesContainer>
+
+          <GenericInput>
+            <label htmlFor="additional-info">Additional info:</label>
+
+            <textarea
+              id="additional-info"
+              {...register('payment.additionalInfo')}
+              placeholder="If needed, add instructions for our delivery or payment."
+            />
+          </GenericInput>
+        </FormSession>
+      </div>
+      <div className="grid-2nd-column">
+        <span>Selected items</span>
+        <FormSession>
+          <p>
+            TODO - Here, the products that have been added to the home page will
+            be displayed.
+          </p>
+          {errors.products?.message && (
+            <span className="input-error__message">
+              {errors.products.message}
+            </span>
+          )}
+          <SubmitFormButton type="submit">Place your order</SubmitFormButton>
+        </FormSession>
+      </div>
+    </FormContainer>
   )
 }
