@@ -116,6 +116,7 @@ export const ItemQuantitySelector = styled.div`
 
     &:hover {
       cursor: pointer;
+      color: ${(props) => props.theme.purpleDark};
     }
 
     /* disable text selection on all browsers possible */
