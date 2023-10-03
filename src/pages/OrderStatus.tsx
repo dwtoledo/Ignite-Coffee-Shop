@@ -1,3 +1,5 @@
+import { OrderConfirmation } from '../components/OrderConfirmation'
+
 export function OrderStatus() {
-  return <h1>Order Status page</h1>
+  return <OrderConfirmation />
 }
