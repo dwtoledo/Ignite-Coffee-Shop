@@ -88,7 +88,6 @@ export const ItemQuantitySelector = styled.div`
   background-color: ${(props) => props.theme.baseButton};
   border-radius: 0.375rem;
   display: flex;
-  height: 2.735rem;
   justify-content: space-evenly;
   padding: 0.5rem;
   width: 4.5rem;

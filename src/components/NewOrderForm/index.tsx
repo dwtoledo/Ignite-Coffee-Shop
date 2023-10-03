@@ -1,3 +1,6 @@
+import ExpressoImgUrl from '../../assets/images/type-expresso.svg'
+import { ItemQuantitySelector } from '../CoffeCard/style'
+
 import { ChangeEvent, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
@@ -17,6 +20,7 @@ import {
   CreditCard,
   Bank,
   Money,
+  Trash,
 } from 'phosphor-react'
 
 import { defaultTheme } from '../../styles/themes/default'
@@ -29,6 +33,9 @@ import {
   SubmitFormButton,
   PaymentType,
   PaymentTypesContainer,
+  SelectedProduct,
+  RemoveProductButton,
+  CartTotal,
 } from './style'
 
 const maxItemQuantityOnCart = 10
@@ -79,6 +86,7 @@ const newOrderFormSchema = z.object({
 type newOrderFormData = z.infer<typeof newOrderFormSchema>
 
 export function NewOrderForm() {
+  const [quantity, setQuantity] = useState<number>(0)
   const [cities, setCities] = useState<Array<string>>([])
   const [paymentType, setPaymentType] = useState<string | undefined>(
     PaymentTypes.CREDIT_CARD,
@@ -112,6 +120,19 @@ export function NewOrderForm() {
 
   function handleProvinceSelection(event: ChangeEvent<HTMLSelectElement>) {
     setCities(getCitiesByProvinceAbbr(event.target.value))
+  }
+
+  function handleQuantityIncrease() {
+    setQuantity((quantity) => quantity + 1)
+  }
+
+  function handleQuantityDecrease() {
+    if (!quantity) return
+    setQuantity((quantity) => quantity - 1)
+  }
+
+  function handleQuantityChange(event: ChangeEvent<HTMLInputElement>) {
+    setQuantity(Number(event.target.value))
   }
 
   return (
@@ -281,13 +302,66 @@ export function NewOrderForm() {
           </GenericInput>
         </FormSession>
       </div>
+
       <div className="grid-2nd-column">
         <span>Selected items</span>
+
         <FormSession>
-          <p>
-            TODO - Here, the products that have been added to the home page will
-            be displayed.
-          </p>
+          <SelectedProduct>
+            <img src={ExpressoImgUrl} alt="" />
+
+            <div className="product__info">
+              <span className="product__title">Traditional Expresso</span>
+              <div className="product__actions">
+                <ItemQuantitySelector>
+                  <span
+                    onClick={handleQuantityDecrease}
+                    title="Decrease quantity"
+                  >
+                    -
+                  </span>
+                  <input
+                    type="number"
+                    name="quantity"
+                    min="0"
+                    value={quantity}
+                    onChange={handleQuantityChange}
+                  />
+                  <span
+                    onClick={handleQuantityIncrease}
+                    title="Increase quantity"
+                  >
+                    +
+                  </span>
+                </ItemQuantitySelector>
+                <RemoveProductButton
+                  title="Remove product from cart"
+                  type="button"
+                >
+                  <Trash color={defaultTheme.purple} size={16} />
+                  <span>Remove</span>
+                </RemoveProductButton>
+              </div>
+            </div>
+
+            <span className="product__price">CAD 9.90</span>
+          </SelectedProduct>
+
+          <CartTotal>
+            <div className="products-total">
+              <span>Total items</span>
+              <span>CAD 29.70</span>
+            </div>
+            <div className="delivery-total">
+              <span>Delivery</span>
+              <span>CAD 3.50</span>
+            </div>
+            <div className="order-total">
+              <span>Total</span>
+              <span>CAD 33.20</span>
+            </div>
+          </CartTotal>
+
           {errors.products?.message && (
             <span className="input-error__message">
               {errors.products.message}
