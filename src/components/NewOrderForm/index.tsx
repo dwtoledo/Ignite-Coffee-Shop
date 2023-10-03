@@ -338,7 +338,7 @@ export function NewOrderForm() {
                   title="Remove product from cart"
                   type="button"
                 >
-                  <Trash color={defaultTheme.purple} size={16} />
+                  <Trash size={16} weight="fill" className="trash-icon" />
                   <span>Remove</span>
                 </RemoveProductButton>
               </div>

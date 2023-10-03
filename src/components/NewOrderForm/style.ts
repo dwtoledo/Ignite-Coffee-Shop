@@ -191,6 +191,10 @@ export const RemoveProductButton = styled.button`
   gap: 0.25rem;
   padding: 0rem 0.5rem;
 
+  .trash-icon {
+    fill: ${(props) => props.theme.purple};
+  }
+
   span {
     text-transform: uppercase;
     color: ${(props) => props.theme.baseText};
@@ -200,6 +204,10 @@ export const RemoveProductButton = styled.button`
   &:hover {
     background-color: ${(props) => props.theme.baseHover};
     cursor: pointer;
+
+    .trash-icon {
+      fill: ${(props) => props.theme.purpleDark};
+    }
 
     span {
       color: ${(props) => props.theme.baseSubtitle};
