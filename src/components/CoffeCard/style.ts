@@ -57,7 +57,7 @@ export const CoffeeCardFooter = styled.div`
     font-size: 0.875rem;
 
     strong {
-      font-size: 1.5rem;
+      font-size: 1.3rem;
       font-family: 'Bakemono Text Bold';
     }
   }
