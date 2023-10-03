@@ -7042,6 +7042,7 @@ const provinceCities = [
   ['ZURICH', 'ON'],
 ]
 
+export const postalCodeMaxCharacters = 6
 export const postalCodeRegexValidation =
   /([ABCEGHJKLMNPRSTVXY]\d)([ABCEGHJKLMNPRSTVWXYZ]\d){2}/i
 
