@@ -6,7 +6,7 @@ import {
   ImageContainer,
 } from './style'
 
-import CoffeeCupImage from '../../assets/images/coffee-cup.png'
+import CoffeeCupImage from '../../assets/images/coffee-cup.svg'
 
 import CartIcon from '../../assets/icons/cart.svg'
 import TimerIcon from '../../assets/icons/timer.svg'
