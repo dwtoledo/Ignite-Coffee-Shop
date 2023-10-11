@@ -116,3 +116,21 @@ export const ButtonsWrapper = styled.div`
   gap: 0.75rem;
   align-items: center;
 `
+
+export const PopoverLocationForm = styled.form`
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  width: 200px;
+  background-color: ${(props) => props.theme.baseCard};
+  padding: 1rem;
+  border-radius: 0.375rem;
+  border: 1px solid ${(props) => props.theme.purpleLight};
+
+  select {
+    background: ${(props) => props.theme.purpleLight};
+    border: none;
+    color: ${(props) => props.theme.purple};
+    font-size: 0.875rem;
+  }
+`

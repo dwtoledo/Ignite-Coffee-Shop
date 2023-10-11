@@ -1,4 +1,13 @@
-const provinceCities = [
+export interface City {
+  name: string
+  provinceAbbr: string
+}
+
+export const postalCodeMaxCharacters = 6
+export const postalCodeRegexValidation =
+  /([ABCEGHJKLMNPRSTVXY]\d)([ABCEGHJKLMNPRSTVWXYZ]\d){2}/i
+
+const cities = [
   ['100 MILE HOUSE', 'BC'],
   ['108 MILE RANCH', 'BC'],
   ['150 MILE HOUSE', 'BC'],
@@ -7042,14 +7051,26 @@ const provinceCities = [
   ['ZURICH', 'ON'],
 ]
 
-export const postalCodeMaxCharacters = 6
-export const postalCodeRegexValidation =
-  /([ABCEGHJKLMNPRSTVXY]\d)([ABCEGHJKLMNPRSTVWXYZ]\d){2}/i
-
-export function getCitiesByProvinceAbbr(abbreviation: string): Array<string> {
-  const cities: Array<string> = []
-  provinceCities.forEach((cityData) => {
-    if (cityData[1] === abbreviation) cities.push(cityData[0])
+export function getAllCities(): Array<City> {
+  const result: Array<City> = []
+  cities.forEach((cityData) => {
+    result.push({
+      name: cityData[0],
+      provinceAbbr: cityData[1],
+    })
   })
-  return cities
+  return result
+}
+
+export function getCitiesByProvinceAbbr(abbreviation: string): Array<City> {
+  const result: Array<City> = []
+  cities.forEach((cityData) => {
+    if (cityData[1] === abbreviation) {
+      result.push({
+        name: cityData[0],
+        provinceAbbr: cityData[1],
+      })
+    }
+  })
+  return result
 }

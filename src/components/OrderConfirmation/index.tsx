@@ -1,8 +1,9 @@
+import { OrderConfirmationContainer } from './style'
+
 import CashIcon from '../../assets/icons/cash.svg'
 import LocationIcon from '../../assets/icons/location.svg'
-import TimerIcon from '../../assets/icons/timer.svg'
 import OrderConfirmationImage from '../../assets/images/order-confirmation.svg'
-import { OrderConfirmationContainer } from './style'
+import TimerIcon from '../../assets/icons/timer.svg'
 
 export function OrderConfirmation() {
   return (

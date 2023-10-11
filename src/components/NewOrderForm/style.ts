@@ -90,6 +90,11 @@ export const GenericInput = styled.div`
     font-size: 0.875rem;
     padding: 0.75rem;
   }
+
+  label {
+    font-size: 0.75rem;
+    line-height: 1;
+  }
 `
 
 export const PaymentType = styled.div`

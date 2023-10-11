@@ -18,3 +18,11 @@ export const provinces: Array<Province> = [
   { abbreviation: 'NU', name: 'NUNAVUT' },
   { abbreviation: 'YT', name: 'YUKON' },
 ]
+
+export function getProvinceByAbbr(abbr: string): Province {
+  const result = provinces.find((province) => province.abbreviation === abbr)
+
+  if (!result) return { abbreviation: '', name: '' }
+
+  return result
+}

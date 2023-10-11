@@ -1,15 +1,13 @@
 import ExpressoImgUrl from '../../assets/images/type-expresso.svg'
 import { ItemQuantitySelector } from '../CoffeCard/style'
 
-import { ChangeEvent, useState } from 'react'
+import { ChangeEvent, useState, useContext, useEffect } from 'react'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { z } from 'zod'
 
 import { PaymentTypes } from '../../lib/payments'
-import { provinces } from '../../lib/provinces'
 import {
-  getCitiesByProvinceAbbr,
   postalCodeRegexValidation,
   postalCodeMaxCharacters,
 } from '../../lib/cities'
@@ -37,6 +35,7 @@ import {
   RemoveProductButton,
   CartTotal,
 } from './style'
+import { LocationContext } from '../../contexts/location'
 
 const maxItemQuantityOnCart = 10
 const minItemQuantityOnCart = 1
@@ -87,12 +86,14 @@ type newOrderFormData = z.infer<typeof newOrderFormSchema>
 
 export function NewOrderForm() {
   const [quantity, setQuantity] = useState<number>(0)
-  const [cities, setCities] = useState<Array<string>>([])
   const [paymentType, setPaymentType] = useState<string | undefined>(
     PaymentTypes.CREDIT_CARD,
   )
 
+  const { selectedCity, selectedProvince } = useContext(LocationContext)
+
   const {
+    setValue,
     register,
     watch,
     handleSubmit,
@@ -100,6 +101,10 @@ export function NewOrderForm() {
   } = useForm<newOrderFormData>({
     resolver: zodResolver(newOrderFormSchema),
     defaultValues: {
+      address: {
+        city: selectedCity.name,
+        province: selectedProvince.abbreviation,
+      },
       payment: {
         type: PaymentTypes.CREDIT_CARD,
       },
@@ -113,13 +118,14 @@ export function NewOrderForm() {
     }
   })
 
+  useEffect(() => {
+    setValue('address.city', selectedCity.name)
+    setValue('address.province', selectedProvince.name)
+  }, [selectedCity, selectedProvince, setValue])
+
   function placeOrder(data: any) {
     // TODO - Go to Order Status page
     console.log(data)
-  }
-
-  function handleProvinceSelection(event: ChangeEvent<HTMLSelectElement>) {
-    setCities(getCitiesByProvinceAbbr(event.target.value))
   }
 
   function handleQuantityIncrease() {
@@ -179,47 +185,28 @@ export function NewOrderForm() {
               />
             </GenericInput>
             <GenericInput>
-              <select
-                placeholder="Province"
-                {...register('address.province')}
-                onChange={handleProvinceSelection}
-              >
-                <option value={''}>Select a province or territory</option>
-                {provinces.map((province) => {
-                  return (
-                    <option
-                      key={province.abbreviation}
-                      value={province.abbreviation}
-                    >
-                      {province.name}
-                    </option>
-                  )
-                })}
-              </select>
-              {errors.address?.province && (
+              <input
+                type="text"
+                {...register('address.city')}
+                placeholder="Select a City..."
+                disabled
+              />
+              {errors.address?.city && (
                 <span className="input-error__message">
-                  {errors.address.province.message}
+                  {errors.address.city.message}
                 </span>
               )}
             </GenericInput>
             <GenericInput>
-              <select
-                placeholder="City"
-                {...register('address.city')}
-                disabled={!cities}
-              >
-                <option value={''}>Select a city</option>
-                {cities.map((city) => {
-                  return (
-                    <option key={city} value={city}>
-                      {city}
-                    </option>
-                  )
-                })}
-              </select>
-              {errors.address?.city && (
+              <input
+                type="text"
+                {...register('address.province')}
+                placeholder="Select a Province..."
+                disabled
+              />
+              {errors.address?.province && (
                 <span className="input-error__message">
-                  {errors.address.city.message}
+                  {errors.address.province.message}
                 </span>
               )}
             </GenericInput>
