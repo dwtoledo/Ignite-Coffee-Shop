@@ -1,25 +1,29 @@
 import { createGlobalStyle } from 'styled-components'
 
+import BakemonoTextBoldUrl from './fonts/BakemonoTextBold.ttf'
+import BakemonoTextExtraboldUrl from './fonts/BakemonoTextExtrabold.ttf'
+import BakemonoTextRegularUrl from './fonts/BakemonoTextRegular.ttf'
+
 export const GlobalStyle = createGlobalStyle`
 
     @font-face {
         font-family: "Bakemono Text Bold";
         src: local("Bakemono Text Bold"),
-        url("./fonts/BakemonoTextBold.ttf") format("truetype");
+        url(${BakemonoTextBoldUrl}) format("truetype");
         font-weight: normal;
     }
 
     @font-face {
         font-family: "Bakemono Text Extrabold";
         src: local("Bakemono Text Extrabold"),
-        url("./fonts/BakemonoTextExtrabold.ttf") format("truetype");
+        url(${BakemonoTextExtraboldUrl}) format("truetype");
         font-weight: normal;
     }
 
     @font-face {
         font-family: "Bakemono Text Regular";
         src: local("Bakemono Text Regular"),
-        url("./fonts/BakemonoTextRegular.ttf") format("truetype");
+        url(${BakemonoTextRegularUrl}) format("truetype");
         font-weight: normal;
     }
 
