@@ -5,6 +5,7 @@ import { LocationContext } from '../../contexts/location'
 import { useState } from 'react'
 import { City, getCitiesByProvinceAbbr } from '../../lib/cities'
 import { Province, provinces } from '../../lib/provinces'
+import { CartContext, CartItem } from '../../contexts/cart'
 
 export function DefaultLayout() {
   const [selectedCity, setSelectedCity] = useState<City>({
@@ -18,23 +19,26 @@ export function DefaultLayout() {
   const [cities, setCities] = useState<Array<City>>(
     getCitiesByProvinceAbbr(selectedCity.provinceAbbr),
   )
+  const [items, setItems] = useState<Array<CartItem>>([])
 
   return (
     <DefaultLayoutContainer>
-      <LocationContext.Provider
-        value={{
-          cities,
-          provinces,
-          selectedCity,
-          selectedProvince,
-          setSelectedCity,
-          setSelectedProvince,
-          setCities,
-        }}
-      >
-        <Header />
-        <Outlet />
-      </LocationContext.Provider>
+      <CartContext.Provider value={{ items, setItems }}>
+        <LocationContext.Provider
+          value={{
+            cities,
+            provinces,
+            selectedCity,
+            selectedProvince,
+            setSelectedCity,
+            setSelectedProvince,
+            setCities,
+          }}
+        >
+          <Header />
+          <Outlet />
+        </LocationContext.Provider>
+      </CartContext.Provider>
     </DefaultLayoutContainer>
   )
 }
