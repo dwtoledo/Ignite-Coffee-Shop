@@ -9,26 +9,72 @@ import {
 
 import CartSimpleIcon from '../../assets/icons/cart-simple.svg'
 import { Product } from '../../lib/products'
-import { ChangeEvent, useState } from 'react'
+import { ChangeEvent, useContext, useState } from 'react'
+import { CartContext, CartItem } from '../../contexts/cart'
+import { v4 as uuid4 } from 'uuid'
 
 interface CoffeeCardProps {
   details: Product
 }
 
 export function CoffeeCard({ details }: CoffeeCardProps) {
+  const { items, setItems } = useContext(CartContext)
   const [quantity, setQuantity] = useState<number>(0)
 
+  function getProductCartItem(productId: string): CartItem | undefined {
+    return items.find((item) => item.product.id === productId)
+  }
+
+  function addCartItem(quantity: number, product: Product) {
+    setItems((items) => [...items, { id: uuid4(), quantity, product }])
+  }
+
+  function removeCartItem(id: string) {
+    setItems(items.filter((item) => item.id !== id))
+  }
+
+  function updateCartItemQuantity(id: string, quantity: number) {
+    setItems(
+      items.map((item) => {
+        if (item.id !== id) return item
+        item.quantity = quantity
+        return item
+      }),
+    )
+  }
+
+  function updateCartItem(productId: string, quantity: number) {
+    const cartItem = getProductCartItem(productId)
+
+    if (!cartItem) {
+      addCartItem(quantity, details)
+    } else {
+      if (quantity < 1) {
+        removeCartItem(cartItem.id)
+      } else {
+        updateCartItemQuantity(cartItem.id, quantity)
+      }
+    }
+  }
+
   function handleQuantityIncrease() {
-    setQuantity((quantity) => quantity + 1)
+    const newQuantity = quantity + 1
+    setQuantity(newQuantity)
+    updateCartItem(details.id, newQuantity)
   }
 
   function handleQuantityDecrease() {
     if (!quantity) return
-    setQuantity((quantity) => quantity - 1)
+    const newQuantity = quantity - 1
+    setQuantity(newQuantity)
+    updateCartItem(details.id, newQuantity)
   }
 
   function handleQuantityChange(event: ChangeEvent<HTMLInputElement>) {
-    setQuantity(Number(event.target.value))
+    const newValue = Number(event.target.value)
+    if (!newValue) return
+    setQuantity(newValue)
+    updateCartItem(details.id, newValue)
   }
 
   return (
