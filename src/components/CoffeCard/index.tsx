@@ -19,7 +19,9 @@ interface CoffeeCardProps {
 
 export function CoffeeCard({ details }: CoffeeCardProps) {
   const { items, setItems } = useContext(CartContext)
-  const [quantity, setQuantity] = useState<number>(0)
+  const [quantity, setQuantity] = useState<number>(
+    getProductCartItem(details.id)?.quantity || 0,
+  )
 
   function getProductCartItem(productId: string): CartItem | undefined {
     return items.find((item) => item.product.id === productId)
