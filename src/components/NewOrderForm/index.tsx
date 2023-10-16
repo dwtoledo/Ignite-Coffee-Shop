@@ -37,6 +37,7 @@ import {
 } from './style'
 
 export const maxItemQuantityOnCart = 10
+const fixedDeliveryFee = 3.5
 
 const newOrderFormSchema = z.object({
   address: z.object({
@@ -127,6 +128,22 @@ export function NewOrderForm() {
   function placeOrder(data: any) {
     // TODO - Go to Order Status page
     console.log(data)
+  }
+
+  function calculateCartTotalItems(): number {
+    let cartTotalItems = 0
+    if (!items.length) return cartTotalItems
+
+    items.forEach(
+      (item) =>
+        (cartTotalItems = cartTotalItems + item.quantity * item.product.price),
+    )
+    return cartTotalItems
+  }
+
+  function calculateCartTotal(): number {
+    const totalItems = Number(calculateCartTotalItems())
+    return totalItems + fixedDeliveryFee
   }
 
   function handleQuantityIncrease() {
@@ -355,15 +372,22 @@ export function NewOrderForm() {
           <CartTotal>
             <div className="products-total">
               <span>Total items</span>
-              <span>CAD 29.70</span>
+              <span>
+                CAD{' '}
+                {items.length ? calculateCartTotalItems().toFixed(2) : '0.00'}
+              </span>
             </div>
             <div className="delivery-total">
               <span>Delivery</span>
-              <span>CAD 3.50</span>
+              <span>
+                CAD {items.length ? fixedDeliveryFee.toFixed(2) : '0.00'}
+              </span>
             </div>
             <div className="order-total">
               <span>Total</span>
-              <span>CAD 33.20</span>
+              <span>
+                CAD {items.length ? calculateCartTotal().toFixed(2) : '0.00'}
+              </span>
             </div>
           </CartTotal>
 
