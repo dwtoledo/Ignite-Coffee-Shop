@@ -1,5 +1,5 @@
 import { ChangeEvent, useState, useContext, useEffect } from 'react'
-import { useForm } from 'react-hook-form'
+import { useFieldArray, useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { z } from 'zod'
 import {
@@ -63,24 +63,23 @@ const newOrderFormSchema = z.object({
     additionalInfo: z.string().trim(),
   }),
   cart: z
-    .array(
-      z.object({
+    .object({
+      id: z.string().uuid(),
+      quantity: z.coerce
+        .number()
+        .min(1, `Minimum of 1 unit per product.`)
+        .max(
+          maxItemQuantityOnCart,
+          `Maximum of ${maxItemQuantityOnCart} units per product.`,
+        )
+        .positive('Please add the product quantity.'),
+      product: z.object({
         id: z.string().uuid(),
-        quantity: z.coerce
-          .number()
-          .min(1, `Minimum of 1 unit per product.`)
-          .max(
-            maxItemQuantityOnCart,
-            `Maximum of ${maxItemQuantityOnCart} units per product.`,
-          )
-          .positive('Please add the product quantity.'),
-        product: z.object({
-          id: z.string().uuid(),
-          price: z.coerce.number(),
-        }),
+        price: z.coerce.number(),
       }),
-    )
-    .nonempty('Cart is empty.'),
+    })
+    .array()
+    .nonempty('Cart is empty, please select at least one product.'),
 })
 
 type newOrderFormData = z.infer<typeof newOrderFormSchema>
@@ -92,9 +91,10 @@ export function NewOrderForm() {
   )
 
   const { selectedCity, selectedProvince } = useContext(LocationContext)
-  const { items } = useContext(CartContext)
+  const { items, setItems } = useContext(CartContext)
 
   const {
+    control,
     setValue,
     register,
     watch,
@@ -114,6 +114,11 @@ export function NewOrderForm() {
     },
   })
 
+  const { remove } = useFieldArray({
+    control,
+    name: 'cart',
+  })
+
   watch((data, { name }) => {
     if (data.payment?.type && name === 'payment.type') {
       setPaymentType(data.payment.type)
@@ -130,6 +135,23 @@ export function NewOrderForm() {
     console.log(data)
   }
 
+  function getCartErrorMessage() {
+    if (errors.cart) {
+      if (errors.cart.root) {
+        return (
+          <span className="input-error__message">
+            {errors.cart.root.message}
+          </span>
+        )
+      } else {
+        return (
+          <span className="input-error__message">{errors.cart.message}</span>
+        )
+      }
+    }
+    return null
+  }
+
   function calculateCartTotalItems(): number {
     let cartTotalItems = 0
     if (!items.length) return cartTotalItems
@@ -144,6 +166,11 @@ export function NewOrderForm() {
   function calculateCartTotal(): number {
     const totalItems = Number(calculateCartTotalItems())
     return totalItems + fixedDeliveryFee
+  }
+
+  function handleRemoveCartItem(cartItemId: string, index: number) {
+    setItems(items.filter((item) => item.id !== cartItemId))
+    remove(index)
   }
 
   function handleQuantityIncrease() {
@@ -350,6 +377,7 @@ export function NewOrderForm() {
                         <RemoveProductButton
                           title="Remove product from cart"
                           type="button"
+                          onClick={() => handleRemoveCartItem(item.id, index)}
                         >
                           <Trash
                             size={16}
@@ -390,10 +418,7 @@ export function NewOrderForm() {
               </span>
             </div>
           </CartTotal>
-
-          {errors.cart?.message && (
-            <span className="input-error__message">{errors.cart.message}</span>
-          )}
+          {getCartErrorMessage()}
           <SubmitFormButton type="submit">Place your order</SubmitFormButton>
         </FormSession>
       </div>
