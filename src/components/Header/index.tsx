@@ -23,6 +23,7 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { GenericInput } from '../NewOrderForm/style'
 import { getCitiesByProvinceAbbr } from '../../lib/cities'
 import { getProvinceByAbbr } from '../../lib/provinces'
+import { CartContext } from '../../contexts/cart'
 
 const locationFormSchema = z.object({
   provinceAbbr: z.string(),
@@ -41,6 +42,8 @@ export function Header() {
     setSelectedCity,
     setSelectedProvince,
   } = useContext(LocationContext)
+
+  const { items } = useContext(CartContext)
 
   const { register, watch } = useForm<locationFormData>({
     resolver: zodResolver(locationFormSchema),
@@ -136,7 +139,7 @@ export function Header() {
         <Link to={'/checkout'}>
           <CartButton title="Proceed to checkout">
             <ShoppingCart size={22} weight="fill" color={defaultTheme.yellow} />
-            <span>3</span>
+            {items.length ? <span>{items.length}</span> : null}
           </CartButton>
         </Link>
       </ButtonsWrapper>
