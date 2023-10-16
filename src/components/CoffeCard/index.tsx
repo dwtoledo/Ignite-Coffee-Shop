@@ -1,3 +1,5 @@
+import { ChangeEvent, useContext, useState } from 'react'
+import { v4 as uuid4 } from 'uuid'
 import {
   CoffeeCardContainer,
   AddToCartButton,
@@ -7,11 +9,10 @@ import {
   ItemTagsContainer,
 } from './style'
 
-import CartSimpleIcon from '../../assets/icons/cart-simple.svg'
-import { Product } from '../../lib/products'
-import { ChangeEvent, useContext, useState } from 'react'
 import { CartContext, CartItem } from '../../contexts/cart'
-import { v4 as uuid4 } from 'uuid'
+import { Product } from '../../lib/products'
+import { maxItemQuantityOnCart } from '../NewOrderForm'
+import CartSimpleIcon from '../../assets/icons/cart-simple.svg'
 
 interface CoffeeCardProps {
   details: Product
@@ -106,7 +107,8 @@ export function CoffeeCard({ details }: CoffeeCardProps) {
             <input
               type="number"
               name="quantity"
-              min="0"
+              min={1}
+              max={maxItemQuantityOnCart}
               value={quantity}
               onChange={handleQuantityChange}
             />
