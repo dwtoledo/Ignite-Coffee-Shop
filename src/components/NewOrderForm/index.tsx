@@ -1,17 +1,7 @@
-import ExpressoImgUrl from '../../assets/images/type-expresso.svg'
-import { ItemQuantitySelector } from '../CoffeCard/style'
-
 import { ChangeEvent, useState, useContext, useEffect } from 'react'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { z } from 'zod'
-
-import { PaymentTypes } from '../../lib/payments'
-import {
-  postalCodeRegexValidation,
-  postalCodeMaxCharacters,
-} from '../../lib/cities'
-
 import {
   MapPinLine,
   CurrencyDollar,
@@ -21,7 +11,17 @@ import {
   Trash,
 } from 'phosphor-react'
 
+import { LocationContext } from '../../contexts/location'
+import { CartContext } from '../../contexts/cart'
+
+import { PaymentTypes } from '../../lib/payments'
+import {
+  postalCodeRegexValidation,
+  postalCodeMaxCharacters,
+} from '../../lib/cities'
+
 import { defaultTheme } from '../../styles/themes/default'
+import { ItemQuantitySelector } from '../CoffeCard/style'
 
 import {
   FormSession,
@@ -35,10 +35,8 @@ import {
   RemoveProductButton,
   CartTotal,
 } from './style'
-import { LocationContext } from '../../contexts/location'
 
-const maxItemQuantityOnCart = 10
-const minItemQuantityOnCart = 1
+export const maxItemQuantityOnCart = 10
 
 const newOrderFormSchema = z.object({
   address: z.object({
@@ -63,20 +61,22 @@ const newOrderFormSchema = z.object({
     type: z.string().nonempty('Required.'),
     additionalInfo: z.string().trim(),
   }),
-  products: z
+  cart: z
     .array(
       z.object({
         id: z.string().uuid(),
-        quantity: z
+        quantity: z.coerce
           .number()
-          .min(
-            minItemQuantityOnCart,
-            `Minimum of ${minItemQuantityOnCart} unit per product.`,
-          )
+          .min(1, `Minimum of 1 unit per product.`)
           .max(
             maxItemQuantityOnCart,
             `Maximum of ${maxItemQuantityOnCart} units per product.`,
-          ),
+          )
+          .positive('Please add the product quantity.'),
+        product: z.object({
+          id: z.string().uuid(),
+          price: z.coerce.number(),
+        }),
       }),
     )
     .nonempty('Cart is empty.'),
@@ -91,6 +91,7 @@ export function NewOrderForm() {
   )
 
   const { selectedCity, selectedProvince } = useContext(LocationContext)
+  const { items } = useContext(CartContext)
 
   const {
     setValue,
@@ -108,7 +109,7 @@ export function NewOrderForm() {
       payment: {
         type: PaymentTypes.CREDIT_CARD,
       },
-      products: [],
+      cart: items.length ? items : [],
     },
   })
 
@@ -294,45 +295,62 @@ export function NewOrderForm() {
         <span>Selected items</span>
 
         <FormSession>
-          <SelectedProduct>
-            <img src={ExpressoImgUrl} alt="" />
+          {items.length
+            ? items.map((item, index) => {
+                return (
+                  <SelectedProduct key={item.id}>
+                    <img
+                      src={item.product.imgUrl}
+                      alt={item.product.imgAltText}
+                    />
 
-            <div className="product__info">
-              <span className="product__title">Traditional Expresso</span>
-              <div className="product__actions">
-                <ItemQuantitySelector>
-                  <span
-                    onClick={handleQuantityDecrease}
-                    title="Decrease quantity"
-                  >
-                    -
-                  </span>
-                  <input
-                    type="number"
-                    name="quantity"
-                    min="0"
-                    value={quantity}
-                    onChange={handleQuantityChange}
-                  />
-                  <span
-                    onClick={handleQuantityIncrease}
-                    title="Increase quantity"
-                  >
-                    +
-                  </span>
-                </ItemQuantitySelector>
-                <RemoveProductButton
-                  title="Remove product from cart"
-                  type="button"
-                >
-                  <Trash size={16} weight="fill" className="trash-icon" />
-                  <span>Remove</span>
-                </RemoveProductButton>
-              </div>
-            </div>
+                    <div className="product__info">
+                      <span className="product__title">
+                        {item.product.name}
+                      </span>
+                      <div className="product__actions">
+                        <ItemQuantitySelector>
+                          <span
+                            onClick={handleQuantityDecrease}
+                            title="Decrease quantity"
+                          >
+                            -
+                          </span>
+                          <input
+                            type="number"
+                            min={1}
+                            max={maxItemQuantityOnCart}
+                            {...register(`cart.${index}.quantity`)}
+                            onChange={handleQuantityChange}
+                          />
+                          <span
+                            onClick={handleQuantityIncrease}
+                            title="Increase quantity"
+                          >
+                            +
+                          </span>
+                        </ItemQuantitySelector>
+                        <RemoveProductButton
+                          title="Remove product from cart"
+                          type="button"
+                        >
+                          <Trash
+                            size={16}
+                            weight="fill"
+                            className="trash-icon"
+                          />
+                          <span>Remove</span>
+                        </RemoveProductButton>
+                      </div>
+                    </div>
 
-            <span className="product__price">CAD 9.90</span>
-          </SelectedProduct>
+                    <span className="product__price">
+                      CAD {Number(item.product.price).toFixed(2)}
+                    </span>
+                  </SelectedProduct>
+                )
+              })
+            : null}
 
           <CartTotal>
             <div className="products-total">
@@ -349,10 +367,8 @@ export function NewOrderForm() {
             </div>
           </CartTotal>
 
-          {errors.products?.message && (
-            <span className="input-error__message">
-              {errors.products.message}
-            </span>
+          {errors.cart?.message && (
+            <span className="input-error__message">{errors.cart.message}</span>
           )}
           <SubmitFormButton type="submit">Place your order</SubmitFormButton>
         </FormSession>
