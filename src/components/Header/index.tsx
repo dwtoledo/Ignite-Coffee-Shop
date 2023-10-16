@@ -70,6 +70,15 @@ export function Header() {
     }
   })
 
+  function getCartQuantity(): number {
+    let cartQuantity = 0
+    if (!items.length) return cartQuantity
+    items.forEach((item) => {
+      cartQuantity = cartQuantity + item.quantity
+    })
+    return cartQuantity
+  }
+
   return (
     <HeaderContainer>
       <Link to={'/'}>
@@ -139,7 +148,7 @@ export function Header() {
         <Link to={'/checkout'}>
           <CartButton title="Proceed to checkout">
             <ShoppingCart size={22} weight="fill" color={defaultTheme.yellow} />
-            {items.length ? <span>{items.length}</span> : null}
+            {items.length ? <span>{getCartQuantity()}</span> : null}
           </CartButton>
         </Link>
       </ButtonsWrapper>
