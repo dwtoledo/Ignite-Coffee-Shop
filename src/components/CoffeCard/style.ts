@@ -1,4 +1,4 @@
-import styled from 'styled-components'
+import styled from "styled-components";
 
 export const CoffeeCardWrapper = styled.div`
   background-color: ${(props) => props.theme.baseCard};
@@ -7,7 +7,7 @@ export const CoffeeCardWrapper = styled.div`
   height: max-content;
   width: 16rem;
   position: relative;
-`
+`;
 
 export const CoffeeCardContainer = styled.div`
   align-items: center;
@@ -24,14 +24,14 @@ export const CoffeeCardContainer = styled.div`
     background-color: ${(props) => props.theme.yellowLight};
     border-radius: 6.25rem;
     color: ${(props) => props.theme.yellowDark};
-    font-family: 'Bakemono Text Bold';
+    font-family: "Bakemono Text Bold";
     font-size: 0.75rem;
     padding: 0.25rem 0.5rem;
     text-transform: uppercase;
   }
   span.title {
     color: ${(props) => props.theme.baseSubtitle};
-    font-family: 'Bakemono Text Bold';
+    font-family: "Bakemono Text Bold";
     font-size: 1.25rem;
   }
   span.description {
@@ -39,13 +39,20 @@ export const CoffeeCardContainer = styled.div`
     font-size: 0.875rem;
     text-align: center;
   }
-`
+
+  .max-qty-message {
+    color: ${(props) => props.theme.baseError};
+    font-size: 0.875rem;
+    line-height: 1;
+    margin-top: 0.5rem;
+  }
+`;
 
 export const ItemTagsContainer = styled.div`
   display: flex;
   flex-wrap: wrap;
   gap: 0.25rem;
-`
+`;
 
 export const CoffeeCardFooter = styled.div`
   align-items: baseline;
@@ -58,10 +65,10 @@ export const CoffeeCardFooter = styled.div`
 
     strong {
       font-size: 1.3rem;
-      font-family: 'Bakemono Text Bold';
+      font-family: "Bakemono Text Bold";
     }
   }
-`
+`;
 
 export const AddToCartButton = styled.button`
   align-items: center;
@@ -81,7 +88,7 @@ export const AddToCartButton = styled.button`
   &:hover {
     background-color: ${(props) => props.theme.purple};
   }
-`
+`;
 
 export const ItemQuantitySelector = styled.div`
   align-items: center;
@@ -100,19 +107,19 @@ export const ItemQuantitySelector = styled.div`
     width: 2rem;
   }
 
-  input[type='number'] {
+  input[type="number"] {
     -moz-appearance: textfield;
   }
 
-  input[type='number']::-webkit-inner-spin-button,
-  input[type='number']::-webkit-outer-spin-button {
+  input[type="number"]::-webkit-inner-spin-button,
+  input[type="number"]::-webkit-outer-spin-button {
     -webkit-appearance: none;
   }
 
   span {
     color: ${(props) => props.theme.purple};
     font-size: 2rem;
-    font-family: 'Bakemono Text Regular';
+    font-family: "Bakemono Text Regular";
 
     &:hover {
       cursor: pointer;
@@ -127,4 +134,4 @@ export const ItemQuantitySelector = styled.div`
     -ms-user-select: none;
     user-select: none;
   }
-`
+`;

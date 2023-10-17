@@ -62,6 +62,7 @@ export function CoffeeCard({ details }: CoffeeCardProps) {
 
   function handleQuantityIncrease() {
     const newQuantity = quantity + 1
+    if (newQuantity > maxItemQuantityOnCart) return
     setQuantity(newQuantity)
     updateCartItem(details.id, newQuantity)
   }
@@ -75,7 +76,7 @@ export function CoffeeCard({ details }: CoffeeCardProps) {
 
   function handleQuantityChange(event: ChangeEvent<HTMLInputElement>) {
     const newValue = Number(event.target.value)
-    if (!newValue) return
+    if (newValue > maxItemQuantityOnCart) return
     setQuantity(newValue)
     updateCartItem(details.id, newValue)
   }
@@ -107,7 +108,7 @@ export function CoffeeCard({ details }: CoffeeCardProps) {
             <input
               type="number"
               name="quantity"
-              min={1}
+              min={0}
               max={maxItemQuantityOnCart}
               value={quantity}
               onChange={handleQuantityChange}
@@ -123,6 +124,9 @@ export function CoffeeCard({ details }: CoffeeCardProps) {
             />
           </AddToCartButton>
         </CoffeeCardFooter>
+        {quantity === maxItemQuantityOnCart ? (
+          <span className="max-qty-message">Maximum quantity reached.</span>
+        ) : null}
       </CoffeeCardContainer>
     </CoffeeCardWrapper>
   )

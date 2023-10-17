@@ -12,7 +12,7 @@ import {
 } from 'phosphor-react'
 
 import { LocationContext } from '../../contexts/location'
-import { CartContext } from '../../contexts/cart'
+import { CartContext, CartItem } from '../../contexts/cart'
 
 import { PaymentTypes } from '../../lib/payments'
 import {
@@ -85,7 +85,6 @@ const newOrderFormSchema = z.object({
 type newOrderFormData = z.infer<typeof newOrderFormSchema>
 
 export function NewOrderForm() {
-  const [quantity, setQuantity] = useState<number>(0)
   const [paymentType, setPaymentType] = useState<string | undefined>(
     PaymentTypes.CREDIT_CARD,
   )
@@ -173,17 +172,52 @@ export function NewOrderForm() {
     remove(index)
   }
 
-  function handleQuantityIncrease() {
-    setQuantity((quantity) => quantity + 1)
+  function handleQuantityIncrease(cartItem: CartItem, index: number) {
+    if (cartItem.quantity === maxItemQuantityOnCart) return
+    setValue(`cart.${index}.quantity`, cartItem.quantity + 1)
+    setItems(
+      items.map((item) => {
+        if (item.id !== cartItem.id) return item
+        item.quantity++
+        return item
+      }),
+    )
   }
 
-  function handleQuantityDecrease() {
-    if (!quantity) return
-    setQuantity((quantity) => quantity - 1)
+  function handleQuantityDecrease(cartItem: CartItem, index: number) {
+    if (cartItem.quantity === 1) {
+      handleRemoveCartItem(cartItem.id, index)
+    } else {
+      setValue(`cart.${index}.quantity`, cartItem.quantity - 1)
+      setItems(
+        items.map((item) => {
+          if (item.id !== cartItem.id) return item
+          item.quantity--
+          return item
+        }),
+      )
+    }
   }
 
-  function handleQuantityChange(event: ChangeEvent<HTMLInputElement>) {
-    setQuantity(Number(event.target.value))
+  function handleQuantityChange(
+    event: ChangeEvent<HTMLInputElement>,
+    cartItem: CartItem,
+    index: number,
+  ) {
+    const newValue = Number(event.target.value)
+    if (newValue > maxItemQuantityOnCart) return
+    if (newValue === 0) {
+      handleRemoveCartItem(cartItem.id, index)
+    } else {
+      setValue(`cart.${index}.quantity`, newValue)
+      setItems(
+        items.map((item) => {
+          if (item.id !== cartItem.id) return item
+          item.quantity = newValue
+          return item
+        }),
+      )
+    }
   }
 
   return (
@@ -355,20 +389,22 @@ export function NewOrderForm() {
                       <div className="product__actions">
                         <ItemQuantitySelector>
                           <span
-                            onClick={handleQuantityDecrease}
+                            onClick={() => handleQuantityDecrease(item, index)}
                             title="Decrease quantity"
                           >
                             -
                           </span>
                           <input
                             type="number"
-                            min={1}
+                            min={0}
                             max={maxItemQuantityOnCart}
                             {...register(`cart.${index}.quantity`)}
-                            onChange={handleQuantityChange}
+                            onChange={(event) =>
+                              handleQuantityChange(event, item, index)
+                            }
                           />
                           <span
-                            onClick={handleQuantityIncrease}
+                            onClick={() => handleQuantityIncrease(item, index)}
                             title="Increase quantity"
                           >
                             +
@@ -387,6 +423,11 @@ export function NewOrderForm() {
                           <span>Remove</span>
                         </RemoveProductButton>
                       </div>
+                      {item.quantity === maxItemQuantityOnCart ? (
+                        <span className="input-error__message">
+                          Maximum quantity reached.
+                        </span>
+                      ) : null}
                     </div>
 
                     <span className="product__price">
