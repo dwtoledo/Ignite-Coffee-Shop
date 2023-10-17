@@ -1,3 +1,6 @@
+import { useOutletContext } from 'react-router-dom'
+import { OrderContextModel } from '../../contexts/order'
+import { getReadablePayment } from '../../lib/payments'
 import { OrderConfirmationContainer } from './style'
 
 import CashIcon from '../../assets/icons/cash.svg'
@@ -6,6 +9,8 @@ import OrderConfirmationImage from '../../assets/images/order-confirmation.svg'
 import TimerIcon from '../../assets/icons/timer.svg'
 
 export function OrderConfirmation() {
+  const { order } = useOutletContext<OrderContextModel>()
+
   return (
     <OrderConfirmationContainer>
       <div className="confirmation-message">
@@ -26,9 +31,11 @@ export function OrderConfirmation() {
             />
             <span>
               Delivery at{' '}
-              <strong>
-                Rua João Daniel Martinelli, 102, Farrapos - Porto Alegre, RS
-              </strong>
+              {order.address ? (
+                <strong>{`${order.address.postalCode} - ${order.address.line1} ${order.address.line2}, ${order.address.city}, ${order.address.province}.`}</strong>
+              ) : (
+                'Address informed on checkout.'
+              )}
             </span>
           </div>
 
@@ -50,12 +57,18 @@ export function OrderConfirmation() {
             />
             <div>
               <p>
-                Payment on delivery using <strong>Credit Card</strong>
+                Payment on delivery using{' '}
+                <strong>
+                  {getReadablePayment(order.payment?.type || null)}
+                </strong>
               </p>
-              <p>
-                <strong>Additional info:</strong> Here it&apos;s the additional
-                info you&apos;ve added on cart
-              </p>
+
+              {order.payment?.additionalInfo ? (
+                <p>
+                  <strong>Additional info:</strong>{' '}
+                  {order.payment.additionalInfo}
+                </p>
+              ) : null}
             </div>
           </div>
         </div>

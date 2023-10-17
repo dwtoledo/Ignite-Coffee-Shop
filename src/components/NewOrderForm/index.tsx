@@ -1,3 +1,4 @@
+import { useOutletContext, useNavigate } from 'react-router-dom'
 import { ChangeEvent, useState, useContext, useEffect } from 'react'
 import { useFieldArray, useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
@@ -35,6 +36,7 @@ import {
   RemoveProductButton,
   CartTotal,
 } from './style'
+import { OrderContextModel } from '../../contexts/order'
 
 export const maxItemQuantityOnCart = 10
 const fixedDeliveryFee = 3.5
@@ -82,15 +84,18 @@ const newOrderFormSchema = z.object({
     .nonempty('Cart is empty, please select at least one product.'),
 })
 
-type newOrderFormData = z.infer<typeof newOrderFormSchema>
+export type newOrderFormData = z.infer<typeof newOrderFormSchema>
 
 export function NewOrderForm() {
+  const navigate = useNavigate()
+
   const [paymentType, setPaymentType] = useState<string | undefined>(
     PaymentTypes.CREDIT_CARD,
   )
 
   const { selectedCity, selectedProvince } = useContext(LocationContext)
   const { items, setItems } = useContext(CartContext)
+  const { setOrder } = useOutletContext<OrderContextModel>()
 
   const {
     control,
@@ -129,9 +134,10 @@ export function NewOrderForm() {
     setValue('address.province', selectedProvince.name)
   }, [selectedCity, selectedProvince, setValue])
 
-  function placeOrder(data: any) {
-    // TODO - Go to Order Status page
-    console.log(data)
+  function placeOrder(order: newOrderFormData) {
+    setOrder(order)
+    setItems([])
+    navigate('/order-status')
   }
 
   function getCartErrorMessage() {
