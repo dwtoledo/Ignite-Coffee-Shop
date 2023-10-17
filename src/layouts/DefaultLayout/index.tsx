@@ -6,6 +6,8 @@ import { useState } from 'react'
 import { City, getCitiesByProvinceAbbr } from '../../lib/cities'
 import { Province, provinces } from '../../lib/provinces'
 import { CartContext, CartItem } from '../../contexts/cart'
+import { newOrderFormData } from '../../components/NewOrderForm'
+import { OrderContextModel } from '../../contexts/order'
 
 export function DefaultLayout() {
   const [selectedCity, setSelectedCity] = useState<City>({
@@ -20,6 +22,7 @@ export function DefaultLayout() {
     getCitiesByProvinceAbbr(selectedCity.provinceAbbr),
   )
   const [items, setItems] = useState<Array<CartItem>>([])
+  const [order, setOrder] = useState<newOrderFormData>({} as newOrderFormData)
 
   return (
     <DefaultLayoutContainer>
@@ -36,7 +39,7 @@ export function DefaultLayout() {
           }}
         >
           <Header />
-          <Outlet />
+          <Outlet context={{ order, setOrder } satisfies OrderContextModel} />
         </LocationContext.Provider>
       </CartContext.Provider>
     </DefaultLayoutContainer>
