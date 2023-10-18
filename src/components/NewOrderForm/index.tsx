@@ -401,6 +401,7 @@ export function NewOrderForm() {
                             -
                           </span>
                           <input
+                            readOnly
                             type="number"
                             min={0}
                             max={maxItemQuantityOnCart}

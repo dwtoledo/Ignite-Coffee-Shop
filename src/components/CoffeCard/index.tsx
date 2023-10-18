@@ -112,6 +112,7 @@ export function CoffeeCard({ details }: CoffeeCardProps) {
               max={maxItemQuantityOnCart}
               value={quantity}
               onChange={handleQuantityChange}
+              readOnly
             />
             <span onClick={handleQuantityIncrease} title="Increase quantity">
               +
