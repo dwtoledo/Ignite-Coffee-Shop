@@ -8,15 +8,16 @@ The project used various React features such as components, props, states, conte
 
 Main page with banner and all product options:
 
-<img width="480" alt="Main page with banner and all product options" src="">
+<img width="480" alt="Main page with banner and all product options" src="https://github.com/dwtoledo/challenge-02-ignite/assets/11148858/b32afeb8-3faf-48b4-b7e2-b8334951e043">
+
 
 Checkout page with order details and address/payment form:
 
-<img width="480" alt="Checkout page with order details and address/payment form" src="">
+<img width="480" alt="Checkout page with order details and address/payment form" src="https://github.com/dwtoledo/challenge-02-ignite/assets/11148858/1bf7b58e-df6d-4c22-83a8-dc3e5fb3d5be">
 
 Order confirmation page with all order details:
 
-<img width="480" alt="Order confirmation page with all order details" src="">
+<img width="480" alt="Order confirmation page with all order details" src="https://github.com/dwtoledo/challenge-02-ignite/assets/11148858/e7a9f27d-80e2-473b-b160-75d2e6929e7f">
 
 
 ## How to view the project:
