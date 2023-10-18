@@ -2,17 +2,19 @@ import { ChangeEvent, useContext, useState } from 'react'
 import { v4 as uuid4 } from 'uuid'
 import {
   CoffeeCardContainer,
-  AddToCartButton,
+  ResetProductQuantityButton,
   ItemQuantitySelector,
   CoffeeCardFooter,
   CoffeeCardWrapper,
   ItemTagsContainer,
 } from './style'
 
+import { TrashSimple } from 'phosphor-react'
+import { defaultTheme } from '../../styles/themes/default'
+
 import { CartContext, CartItem } from '../../contexts/cart'
 import { Product } from '../../lib/products'
 import { maxItemQuantityOnCart } from '../NewOrderForm'
-import CartSimpleIcon from '../../assets/icons/cart-simple.svg'
 
 interface CoffeeCardProps {
   details: Product
@@ -81,6 +83,11 @@ export function CoffeeCard({ details }: CoffeeCardProps) {
     updateCartItem(details.id, newValue)
   }
 
+  function handleResetProductQuantity() {
+    setQuantity(0)
+    updateCartItem(details.id, 0)
+  }
+
   return (
     <CoffeeCardWrapper>
       <CoffeeCardContainer>
@@ -118,12 +125,14 @@ export function CoffeeCard({ details }: CoffeeCardProps) {
               +
             </span>
           </ItemQuantitySelector>
-          <AddToCartButton title="Add to cart">
-            <img
-              src={CartSimpleIcon}
-              alt="White simple cart icon within dark purple button"
-            />
-          </AddToCartButton>
+          <ResetProductQuantityButton
+            type="button"
+            title="Reset product quantity."
+            disabled={!quantity}
+            onClick={handleResetProductQuantity}
+          >
+            <TrashSimple color={defaultTheme.white} />
+          </ResetProductQuantityButton>
         </CoffeeCardFooter>
         {quantity === maxItemQuantityOnCart ? (
           <span className="max-qty-message">Maximum quantity reached.</span>

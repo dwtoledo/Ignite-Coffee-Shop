@@ -41,7 +41,7 @@ export const CoffeeCardContainer = styled.div`
   }
 
   .max-qty-message {
-    color: ${(props) => props.theme.baseError};
+    color: ${(props) => props.theme.redDark};
     font-size: 0.875rem;
     line-height: 1;
     margin-top: 0.5rem;
@@ -70,9 +70,9 @@ export const CoffeeCardFooter = styled.div`
   }
 `;
 
-export const AddToCartButton = styled.button`
+export const ResetProductQuantityButton = styled.button`
   align-items: center;
-  background-color: ${(props) => props.theme.purpleDark};
+  background-color: ${(props) => props.theme.redDark};
   border: none;
   border-radius: 0.375rem;
   cursor: pointer;
@@ -86,7 +86,12 @@ export const AddToCartButton = styled.button`
   }
 
   &:hover {
-    background-color: ${(props) => props.theme.purple};
+    background-color: ${(props) => props.theme.red};
+  }
+
+  &:disabled {
+    background-color: ${(props) => props.theme.purpleDark};
+    cursor: not-allowed;
   }
 `;
 

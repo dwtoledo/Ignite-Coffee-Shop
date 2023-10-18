@@ -26,7 +26,7 @@ export const FormContainer = styled.form`
   }
 
   .input-error__message {
-    color: ${(props) => props.theme.baseError};
+    color: ${(props) => props.theme.redDark};
     font-size: 0.875rem;
   }
 `;
