@@ -1,4 +1,4 @@
-import styled from 'styled-components'
+import styled from "styled-components";
 
 export const FormContainer = styled.form`
   display: flex;
@@ -29,7 +29,7 @@ export const FormContainer = styled.form`
     color: ${(props) => props.theme.baseError};
     font-size: 0.875rem;
   }
-`
+`;
 
 export const FormSession = styled.fieldset`
   background-color: ${(props) => props.theme.baseCard};
@@ -54,7 +54,7 @@ export const FormSession = styled.fieldset`
 
     &__title {
       color: ${(props) => props.theme.baseSubtitle};
-      font-family: 'Bakemono Text Bold';
+      font-family: "Bakemono Text Bold";
     }
 
     &__message {
@@ -62,7 +62,7 @@ export const FormSession = styled.fieldset`
       font-size: 0.875rem;
     }
   }
-`
+`;
 
 export const InputsGroup = styled.div`
   display: flex;
@@ -74,7 +74,7 @@ export const InputsGroup = styled.div`
     gap: 0.75rem;
     grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
   }
-`
+`;
 
 export const GenericInput = styled.div`
   display: flex;
@@ -89,13 +89,17 @@ export const GenericInput = styled.div`
     border-radius: 0.25rem;
     font-size: 0.875rem;
     padding: 0.75rem;
+
+    &:focus {
+      border: 1px solid ${(props) => props.theme.yellowDark};
+    }
   }
 
   label {
     font-size: 0.75rem;
     line-height: 1;
   }
-`
+`;
 
 export const PaymentType = styled.div`
   input {
@@ -124,7 +128,7 @@ export const PaymentType = styled.div`
       color: ${(props) => props.theme.baseText};
     }
   }
-`
+`;
 
 export const SubmitFormButton = styled.button`
   background-color: ${(props) => props.theme.yellow};
@@ -139,7 +143,7 @@ export const SubmitFormButton = styled.button`
     background-color: ${(props) => props.theme.yellowDark};
     cursor: pointer;
   }
-`
+`;
 
 export const PaymentTypesContainer = styled.div`
   display: flex;
@@ -151,7 +155,7 @@ export const PaymentTypesContainer = styled.div`
     grid-template-columns: 1fr 1fr 1fr;
     gap: 0.75rem;
   }
-`
+`;
 
 export const SelectedProduct = styled.div`
   display: flex;
@@ -182,9 +186,9 @@ export const SelectedProduct = styled.div`
     flex: 1;
     text-align: end;
     font-size: 1rem;
-    font-family: 'Bakemono Text Bold';
+    font-family: "Bakemono Text Bold";
   }
-`
+`;
 
 export const RemoveProductButton = styled.button`
   background-color: ${(props) => props.theme.baseButton};
@@ -218,7 +222,7 @@ export const RemoveProductButton = styled.button`
       color: ${(props) => props.theme.baseSubtitle};
     }
   }
-`
+`;
 
 export const CartTotal = styled.div`
   display: flex;
@@ -239,7 +243,7 @@ export const CartTotal = styled.div`
 
   .order-total > span {
     font-size: 1.25rem;
-    font-family: 'Bakemono Text Bold';
+    font-family: "Bakemono Text Bold";
     color: ${(props) => props.theme.baseSubtitle};
   }
 
@@ -251,4 +255,4 @@ export const CartTotal = styled.div`
       font-size: 0.875rem;
     }
   }
-`
+`;

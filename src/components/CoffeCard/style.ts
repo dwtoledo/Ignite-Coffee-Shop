@@ -99,6 +99,10 @@ export const ItemQuantitySelector = styled.div`
   padding: 0.5rem;
   width: 4.5rem;
 
+  &:focus-within {
+    border: 1px solid ${(props) => props.theme.yellowDark};
+  }
+
   input {
     background-color: transparent;
     border: none;
