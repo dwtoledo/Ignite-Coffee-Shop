@@ -10,7 +10,6 @@ export const defaultTheme = {
   baseButton: '#E6E5E5',
   baseInput: '#EDEDED',
   baseCard: '#F3F2F2',
-  baseError: '#C41717',
 
   yellow: '#DBAC2C',
   yellowDark: '#C47F17',
@@ -19,4 +18,8 @@ export const defaultTheme = {
   purple: '#8047F8',
   purpleDark: '#4B2995',
   purpleLight: '#EBE5F9',
+
+  red: '#f84747',
+  redDark: '#952929',
+  redLight: '#f9e5e5',
 }
